@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "276687591753",
+    "project_id": "kalluris-d68f2",
+    "storage_bucket": "kalluris-d68f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276687591753:android:79456211f3de9d73bd2298",
+        "android_client_info": {
+          "package_name": "com.example.kalluri_milk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276687591753-r20ekuul5tkkn00om6se4emmts0visph.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kalluri_milk",
+            "certificate_hash": "f9d06f10230b1c7f3c096ca7940c5be9c252fc44"
+          }
+        },
+        {
+          "client_id": "276687591753-edfov2llbu66hfrm1ub1gi592of8fgsg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1AZxD87hB0vWRbr3XiGwYbHjcgCCEiQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276687591753-edfov2llbu66hfrm1ub1gi592of8fgsg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
