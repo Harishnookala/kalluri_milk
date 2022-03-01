@@ -21,6 +21,7 @@ class adminPannelState extends State<adminPannel> {
       home: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
+          elevation: 0.0,
           backgroundColor: Color(0xfff0d9a1),
           leading: IconButton(
             icon: Icon(Icons.menu, size: 40), // change this size and style
