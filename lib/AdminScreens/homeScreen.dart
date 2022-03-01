@@ -33,27 +33,30 @@ class adminPannelState extends State<adminPannel> {
                 child: Text(
                   "Kalluris",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.red,
                       fontFamily: "Poppins-Medium",
-                      fontWeight: FontWeight.w400),
+                      fontWeight: FontWeight.w300),
                 ),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(35, 35),
-                    primary: Colors.green,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25))),
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(
-                      MaterialPageRoute(
-                          builder: (BuildContext
-                          context) =>
-                              newProducts()));
-                },
-                child: Text(" +  Create ",
-                    style: TextStyle(fontFamily: "Poppins-Thin",fontSize: 20)),
+              Container(
+                margin: EdgeInsets.only(top: 2.3),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(35, 35),
+                      primary: Colors.green,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25))),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(
+                        MaterialPageRoute(
+                            builder: (BuildContext
+                            context) =>
+                                newProducts()));
+                  },
+                  child: Text(" +  Create ",
+                      style: TextStyle(fontFamily: "Poppins-Thin",fontSize: 20)),
+                ),
               ),
             ],
           ),

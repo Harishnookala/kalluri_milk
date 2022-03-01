@@ -371,13 +371,12 @@ class newProductsState extends State<newProducts> {
           String? image_url = await image;
 
           Map<String, dynamic> data = {
-            "Product_details": {
-              Selecteditem:[{
-                "Product Name": nameController.text,
-                "Price": int.parse(priceController.text),
-                "Quantity": int.parse(QuantityController.text),
-                "Image": image_url,}
-              ]
+            "Category": {
+              "productName": nameController.text,
+              "price": int.parse(priceController.text),
+              "quantity": int.parse(QuantityController.text),
+              "category": Selecteditem,
+              "image": image_url,
             },
           };
           await FirebaseFirestore

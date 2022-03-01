@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'AdminScreens/homeScreen.dart';
 import 'main_Screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         Duration(seconds: 3),
             () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => mainScreen())));
+            builder: (BuildContext context) => adminPannel())));
   }
 
   @override

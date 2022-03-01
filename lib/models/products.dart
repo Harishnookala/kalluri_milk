@@ -1,29 +1,9 @@
 class Products {
-  ProductDetails? productDetails;
-
-  Products({this.productDetails});
-
-  Products.fromJson(Map<String, dynamic> json) {
-    productDetails = json['Product_details'] != null
-        ? new ProductDetails.fromJson(json['Product_details'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.productDetails != null) {
-      data['Product_details'] = this.productDetails!.toJson();
-    }
-    return data;
-  }
-}
-
-class ProductDetails {
   List<Categories>? categories;
 
-  ProductDetails({this.categories});
+  Products({this.categories});
 
-  ProductDetails.fromJson(Map<String, dynamic> json) {
+  Products.fromJson(Map<String, dynamic> json) {
     if (json['Categories'] != null) {
       categories = <Categories>[];
       json['Categories'].forEach((v) {
@@ -42,14 +22,17 @@ class ProductDetails {
 }
 
 class Categories {
+  String? category;
   int? price;
   String? productName;
   int? quantity;
   String? image;
 
-  Categories({this.price, this.productName, this.quantity, this.image});
+  Categories(
+      {this.category, this.price, this.productName, this.quantity, this.image});
 
   Categories.fromJson(Map<String, dynamic> json) {
+    category = json['category'];
     price = json['Price'];
     productName = json['ProductName'];
     quantity = json['Quantity'];
@@ -58,6 +41,7 @@ class Categories {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['category'] = this.category;
     data['Price'] = this.price;
     data['ProductName'] = this.productName;
     data['Quantity'] = this.quantity;
