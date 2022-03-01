@@ -40,7 +40,7 @@ class ShownProductsState extends State<shownProducts> {
                     DocumentSnapshot userData =
                     userSnapshot.data!.docs[index];
                     var products = userData.get("Category");
-                    
+
                     return new Column(
                     children: [
                          Text(products["category"])
