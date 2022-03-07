@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -22,29 +23,33 @@ class newProductsState extends State<newProducts> {
   Authentication authentication = Authentication();
   final newProduct_key = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-
   var image;
   List Category = ['Milk', 'Curd', 'Ghee', 'Paneer'];
-
   String? Selecteditem = "";
-
   File? imageFile;
-
   var url;
-
   String? imageurl;
+
+ var document_id;
+
+  @override
+   void initState()  {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    var id = authentication.product_values();
+
+    print(id);
     return Scaffold(
       backgroundColor: Color(0xfffbf5e5),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 30,
-            ),
             Container(
+              margin: EdgeInsets.only(top:19.6),
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -173,7 +178,7 @@ class newProductsState extends State<newProducts> {
               borderSide: BorderSide(color: Color(0xcc9fce4c), width: 1.5),
             ),
             hintStyle: const TextStyle(color: Colors.brown)),
-        controller: nameController,
+         controller: nameController,
       ),
     );
   }
@@ -287,7 +292,10 @@ class newProductsState extends State<newProducts> {
               primary: Colors.greenAccent,
               backgroundColor: Color(0xffc29b51)),
           onPressed: () {
-            _getFromGallery();
+            setState(() {
+              _getFromGallery();
+            });
+
           },
           child: Text(
             "Upload ",
@@ -300,9 +308,10 @@ class newProductsState extends State<newProducts> {
     XFile? pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
     );
-    if (pickedFile != null) {
-      setState(() {
+    if (pickedFile != null){
+      setState(()  {
         imageFile = File(pickedFile.path);
+         image =  authentication.moveToStorage(imageFile, Selecteditem, nameController.text);
       });
     }
   }
@@ -324,6 +333,7 @@ class newProductsState extends State<newProducts> {
                           child: Center(
                             child: Image.file(
                               imageFile!,
+                              width: 200,
                             ),
                           )),
                       TextButton(
@@ -349,7 +359,7 @@ class newProductsState extends State<newProducts> {
                         margin: EdgeInsets.only(right: 12.3),
                         child: uploadImage()),
                   ),
-                )
+             )
         ],
       ),
     );
@@ -366,26 +376,39 @@ class newProductsState extends State<newProducts> {
               side: BorderSide(color: Colors.green),
             ))),
         onPressed: () async {
-          var image = authentication.moveToStorage(
-              imageFile, Selecteditem, nameController.text);
-          String? image_url = await image;
+          image = await image;
+          document_id = authentication.product_values();
+          var value = await document_id;
+          if(value==null){
+             value = 1000;
+          }
+          else{
+            value = int.parse(value);
+            value = value+1;
+            print(value);
+          }
 
           Map<String, dynamic> data = {
-            "Category": {
               "productName": nameController.text,
               "price": int.parse(priceController.text),
               "quantity": int.parse(QuantityController.text),
               "category": Selecteditem,
-              "image": image_url,
-            },
+              "image": image,
+               "id":value
           };
-          await FirebaseFirestore
-              .instance
-              .collection('Admin').doc("Products").collection("Product_details").add(data);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context)  => adminPannel()),
-          );
+
+
+          await FirebaseFirestore.instance
+              .collection('Admin')
+              .doc("Products")
+              .collection("Product_details")
+              .doc(value.toString()).set(data);
+          Navigator.of(context)
+              .push(
+              MaterialPageRoute(
+                  builder: (BuildContext
+                  context) =>
+                      adminPannel()));
         },
         child: Text(
           "Save",
@@ -394,4 +417,6 @@ class newProductsState extends State<newProducts> {
       ),
     );
   }
+
+
 }

@@ -19,13 +19,17 @@ class adminPannelState extends State<adminPannel> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.grey.shade200,
         key: _scaffoldKey,
         appBar: AppBar(
-          elevation: 0.0,
+          elevation: 2.0,
           backgroundColor: Color(0xfff0d9a1),
-          leading: IconButton(
-            icon: Icon(Icons.menu, size: 40), // change this size and style
-            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          leading: Container(
+            margin: EdgeInsets.only(left: 3.3),
+            child: IconButton(
+              icon: Icon(Icons.menu, size: 40), // change this size and style
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+            ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +67,7 @@ class adminPannelState extends State<adminPannel> {
           ),
         ),
         drawer: Container(
-          width: 300,
+          width: 280,
           color: Colors.white,
           child: Drawer(
               child: DrawerHeader(

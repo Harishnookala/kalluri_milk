@@ -38,7 +38,7 @@ class LoginState extends State<Login> {
                     child: Text(
                       "Enter Phone number : -",
                       style: TextStyle(
-                          color: Color(0xffc6912d), fontFamily: "Poppins",fontSize: 16),
+                          color: Color(0xffc6912d), fontFamily: "Poppins-Light",fontSize: 16),
                     ),
                     padding: EdgeInsets.only(bottom: 12.3),
                   ),
@@ -82,7 +82,7 @@ class LoginState extends State<Login> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
-                                        fontFamily: "Poppins-Medium"),
+                                        fontFamily: "Poppins-Light"),
                                   ))
                               : SizedBox(
                             width: MediaQuery.of(context).size.width*0.45,
@@ -99,10 +99,8 @@ class LoginState extends State<Login> {
                                     var auth;
                                         if (validate) {
                                           FirebaseAuth.instance.signInAnonymously().then((UserCredential user){
-                                            auth =
-                                                authentication.phone_authentication(
-                                                    phoneController.text,
-                                                    otpController.text);
+                                            auth = authentication.adminAuthentication(phoneController.text,otpController.text);
+                                            print(auth);
                                             auth == "admin"
                                                 ? Navigator.of(context)
                                                 .pushReplacement(
@@ -110,12 +108,17 @@ class LoginState extends State<Login> {
                                                     builder: (BuildContext
                                                     context) =>
                                                         adminPannel()))
-                                                : Navigator.of(context)
-                                                .pushReplacement(
+                                                :auth=="Valid"? Navigator.of(context)
+                                                .push(
                                                 MaterialPageRoute(
                                                     builder: (BuildContext
                                                     context) =>
-                                                        userPannel()));
+                                                        userPannel(phoneNumber:phoneController.text))):Navigator.of(context)
+                                                .push(
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                    context) =>
+                                                        Login()));
                                           });
 
                                         }
@@ -169,9 +172,9 @@ class LoginState extends State<Login> {
         cursorColor: Colors.orange,
         style: const TextStyle(
             color: Color(0xff394028),
-            fontSize: 17,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
-            fontFamily: "Poppins-Medium"),
+            fontFamily: "Poppins-Light"),
       ),
     );
   }
