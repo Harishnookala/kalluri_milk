@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kalluri_milk/AdminScreens/shownProducts.dart';
-import 'package:kalluri_milk/UserScrens/products_screen.dart';
-import 'package:kalluri_milk/UserScrens/profile_scren.dart';
+import 'package:kalluri_milk/UserScreens/products_screen.dart';
+import 'package:kalluri_milk/UserScreens/profile_scren.dart';
 import 'cart_screen.dart';
 import 'home_screen.dart';
 
@@ -30,7 +29,7 @@ class userPannelState extends State<userPannel> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          backgroundColor: Colors.grey.shade300,
+          backgroundColor: Colors.grey.shade100,
           key: _scaffoldKey,
           appBar: AppBar(
             elevation: 2.0,
@@ -74,9 +73,8 @@ class userPannelState extends State<userPannel> {
           ),
           body: tabList.elementAt(_selectedIndex),
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white,
             currentIndex: _selectedIndex,
-            elevation: 1.3,
+            elevation: 1.0,
             selectedItemColor: Colors.yellow.shade600,
             showSelectedLabels: true,
             showUnselectedLabels: true,
