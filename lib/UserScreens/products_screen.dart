@@ -6,7 +6,9 @@ import 'package:kalluri_milk/repositories/authentication.dart';
 import 'package:kalluri_milk/UserScreens/add_products.dart';
 class productsPage extends StatefulWidget {
   String? phoneNumber;
-  productsPage({this.phoneNumber});
+  List<String>? date =[];
+  List<DocumentSnapshot>? products;
+  productsPage({this.phoneNumber, this.date,this.products });
   @override
   productsPageState createState() =>
       productsPageState(phoneNumber: this.phoneNumber);
@@ -18,7 +20,6 @@ class productsPageState extends State<productsPage> {
   Authentication authentication = Authentication();
 
   var optioncategory;
-
 
   productsPageState({this.phoneNumber});
   bool pressed = true;
@@ -38,8 +39,9 @@ class productsPageState extends State<productsPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return Container(
-        padding: EdgeInsets.all(7.8),
+        padding: EdgeInsets.all(10.8),
         child: StreamBuilder<QuerySnapshot>(
             stream: collection,
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -53,7 +55,7 @@ class productsPageState extends State<productsPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 50,
+                      height: 65,
                       child: ListView.builder(
                           physics: ScrollPhysics(),
                           shrinkWrap: true,
@@ -62,6 +64,7 @@ class productsPageState extends State<productsPage> {
                           itemBuilder: (context, count) {
                             productCategory = categories[0];
                             return Container(
+                              margin: EdgeInsets.only(bottom: 12.6),
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -132,8 +135,10 @@ class productsPageState extends State<productsPage> {
   buildCategoriesButton(List categories,int count) {
     return  Container(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
+            margin: EdgeInsets.only(right: 25.6),
             child: TextButton(
               onPressed: () {
                 setState(() {
@@ -148,13 +153,13 @@ class productsPageState extends State<productsPage> {
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: "Poppins-Light",
-                    fontSize: 17,
+                    fontSize: 15,
                     fontWeight: FontWeight.w400),
               ),
               style: ButtonStyle(
                   minimumSize:
                   MaterialStateProperty.all(
-                      Size(110, 0)),
+                      Size(80, 0)),
                   shape: count == index
                       ? MaterialStateProperty.all<
                       RoundedRectangleBorder>(
@@ -249,7 +254,7 @@ class productsPageState extends State<productsPage> {
           ),
           Container(
               margin: EdgeInsets.only(top: 2.6, bottom: 8.3),
-              child: Text("₹  " + product.get("price").toString(),style: TextStyle(fontSize:18,fontFamily: "Poppins-Medium"),)),
+              child: Text("₹  " + product.get("price").toString() + ".00", style: TextStyle(fontSize:18,fontFamily: "Poppins-Medium"),)),
         ],
       ),
     );
@@ -281,7 +286,7 @@ class productsPageState extends State<productsPage> {
                     MaterialPageRoute(
                         builder: (BuildContext
                         context) =>
-                            addProducts(id:id)));
+                            addProducts(id:id,phoneNumber:phoneNumber, datesOfCalender:widget.date,products:widget.products)));
               },
               child: Container(
                 
@@ -291,7 +296,6 @@ class productsPageState extends State<productsPage> {
         ),
         SafeArea(
           child: Container(
-
             child: TextButton(
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(Size(80, 20)),
@@ -307,7 +311,7 @@ class productsPageState extends State<productsPage> {
               },
               child: Container(
                   margin: EdgeInsets.only(left: 15.3,right: 15.3),
-                  child: Text("Subscribe",style: TextStyle(color: Colors.black54,fontFamily:"Poppins-Medium",fontSize: 15),)),
+                  child: Text("Subscribe",style: TextStyle(color: Colors.black54,fontFamily:"Poppins-Medium",fontSize: 16),)),
             ),
           ),
         ),

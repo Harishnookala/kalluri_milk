@@ -31,7 +31,6 @@ class Authentication {
          return "not Valid";
       }
 
-
   Future<String?> moveToStorage(
       File? imageFile, String? selecteditem, String text) async {
     if (imageFile != null) {
@@ -62,7 +61,6 @@ class Authentication {
      else{
        return null;
      }
-
   }
 
   get_categories(QuerySnapshot<Object?>? data) {

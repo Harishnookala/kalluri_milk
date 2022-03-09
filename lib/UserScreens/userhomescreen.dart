@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kalluri_milk/UserScreens/products_screen.dart';
@@ -7,7 +8,9 @@ import 'home_screen.dart';
 
 class userPannel extends StatefulWidget {
   String? phoneNumber;
-  userPannel({this.phoneNumber});
+  List<String>? dates=[];
+  List<DocumentSnapshot>? products;
+  userPannel({this.phoneNumber,this.dates, this.products});
   @override
   userPannelState createState() =>
       userPannelState(phoneNumber: this.phoneNumber);
@@ -18,12 +21,14 @@ class userPannelState extends State<userPannel> {
   String? phoneNumber;
   userPannelState({this.phoneNumber});
   int _selectedIndex = 0;
+  List items =["Harish"];
   @override
   Widget build(BuildContext context) {
+    print(widget.dates);
     List<Widget> tabList = <Widget>[
       HomePage(),
-      productsPage(),
-      walletPage(),
+      productsPage(phoneNumber: phoneNumber,date: widget.dates,products:widget.products),
+      WalletPage(),
       profilePage(),
     ];
     return MaterialApp(
@@ -49,17 +54,25 @@ class userPannelState extends State<userPannel> {
                     "Kalluris Farm",
                     style: TextStyle(
                       color: Color(0xff167e43),
-                      fontFamily: "Poppins-Light",
+                      fontFamily: "Poppins-Medium",
                       fontSize: 18,
                     ),
                   ),
                 ),
-                TextButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.add_shopping_cart,
-                      color: Colors.blue,
-                    ))
+                Stack(children: [
+                  IconButton(icon:Icon( Icons.add_shopping_cart,color: Colors.lime), onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> WalletPage()));
+
+                  },),
+                  (items.length>0)?Positioned(
+                     right: 10,
+                    child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 0.0),
+                          child: Text(items.length.toString(),style: TextStyle(color: Colors.orange),),
+                        )),
+                  ):Text("")
+                ],),
               ],
             ),
           ),
@@ -68,7 +81,7 @@ class userPannelState extends State<userPannel> {
             color: Colors.white,
             child: Drawer(
                 child: DrawerHeader(
-              child: Text(phoneNumber!),
+              child: Text("Harish"),
             )),
           ),
           body: tabList.elementAt(_selectedIndex),

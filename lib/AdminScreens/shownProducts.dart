@@ -38,12 +38,10 @@ class ShownProductsState extends State<shownProducts> {
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               QuerySnapshot<Object?>? userData = snapshot.data;
-
               List categories = authentication.get_categories(userData);
+              print(categories);
               Iterable products = categories.reversed;
               categories = products.toList();
-              print(categories);
-
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: categories.length,

@@ -51,7 +51,8 @@ class editProductsState extends State<editProducts> {
             builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasData) {
                 var product = snapshot.data;
-                return editData(id:id,name:product!.get("productName"),
+                return editData(id:id,
+                  name:product!.get("productName"),
                   category:product.get("category"),
                   price:product.get("price"),
                   quantity:product.get("quantity"),

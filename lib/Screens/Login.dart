@@ -64,7 +64,6 @@ class LoginState extends State<Login> {
                           child: pressed == false
                               ? ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-
                                       minimumSize: Size(60, 40),
                                       primary: Color(0xcc167e43),
                                       shape: RoundedRectangleBorder(
@@ -83,7 +82,7 @@ class LoginState extends State<Login> {
                                         fontFamily: "Poppins-Light"),
                                   ))
                               : SizedBox(
-                            width: MediaQuery.of(context).size.width*0.45,
+                                width: MediaQuery.of(context).size.width*0.45,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         elevation: 2.3,
@@ -124,16 +123,15 @@ class LoginState extends State<Login> {
 
                                       });
                                     },
-                                    child: Text(
-                                        "Login",
+                                    child: Text("Login",
                                           style: TextStyle(
                                              color: Colors.white,
                                              fontFamily: "Poppins-Medium",
                                              fontSize: 18),
                                     )
-                             ),
+                                ),
                               )
-                      )
+                      ),
                   ),
                 ],
               ),
@@ -148,6 +146,7 @@ class LoginState extends State<Login> {
     return SizedBox(
       height:55,
       child: TextFormField(
+
         validator: (phoneNumber) {
           if (phoneNumber!.isEmpty) {
             return 'Please enter Phonenumber';
@@ -171,6 +170,7 @@ class LoginState extends State<Login> {
         style: const TextStyle(
             color: Color(0xff394028),
             fontSize: 15,
+            letterSpacing: 1.0,
             fontWeight: FontWeight.bold,
             fontFamily: "Poppins-Light"),
       ),
@@ -200,8 +200,8 @@ class LoginState extends State<Login> {
             hintStyle: const TextStyle(color: Colors.brown)),
         controller: otpController,
         cursorColor: Colors.orange,
-        style: const TextStyle(
-            color: Colors.black54, fontSize: 17, fontWeight: FontWeight.bold),
+        style:  TextStyle(
+            color: Colors.indigo, fontSize: 17,letterSpacing: 1.0,),
       ),
     );
   }
