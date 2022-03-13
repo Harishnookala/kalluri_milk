@@ -4,11 +4,15 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:kalluri_milk/AdminScreens/edit_data.dart';
 import 'package:kalluri_milk/models/products.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class Authentication {
   CollectionReference get = FirebaseFirestore.instance.collection('Admin');
+
+
 
   String? adminAuthentication(String admin_number,String otp) {
     String? phone_number = "7995289160";
@@ -68,7 +72,6 @@ class Authentication {
     String? category;
     for (int i = 0; i < data!.docs.length; i++) {
       DocumentSnapshot product = data.docs[i];
-      var items = product.get("productName");
        category = product.get("category");
          categories.add(category);
     }
@@ -76,4 +79,91 @@ class Authentication {
 
     return categories.toList();
   }
+  List<String>?get_dates(List<String>? date){
+     Set<String>? alldates = HashSet();
+     String? selected_dates;
+     if(date!.isNotEmpty){
+     for(int i=0;i<date.length;i++){
+       selected_dates =date[i];
+       alldates.add(selected_dates);
+     }
+     return alldates.toList();
+     }
+     else{
+       return null;
+     }
+
+  }
+  List? get_names(List<QueryDocumentSnapshot<Object?>>docs){
+    List names = [];
+     for(int i=0;i<docs.length;i++){
+       names.add(docs[i].get("productName"));
+     }
+    return names.toList();
+  }
+  List<String>? get_values(List<DocumentSnapshot<Object?>>? products, List<String>? date){
+    List<List<List<int>>> numbers =  [];
+
+    Set<String>? alldates = HashSet();
+    List values =[];
+    values.add(products![0].get("productName"));
+
+
+    print(numbers);
+  }
+
+  List? getProductswithdates(List<DocumentSnapshot<Object?>>? products, List<String>? date, String? singledate) {
+   Map map = Map();
+   List values =[];
+      map = {
+      "date":{
+        for(int i=0;i<date!.length;i++){
+
+        }
+      },
+    };
+
+    }
+
+  get_id(List? listofvalues) {
+    List idea = [];
+    List list =[];
+    List get =[];
+
+  //  [               [ [16 mar][121][10034]  ],]
+
+    List<Object> list1=[] ;
+    List<Object> list2=[];
+    List<Object> list3=[];
+
+    //list3.add([])
+
+    list2.add("element1");
+
+    list1.add("element2");
+    list1.add("element3");
+   // list1.add("element4");
+
+    list2.add(list1);
+
+    list3.add(list2);
+
+    print(list3.toString() + "Siva");
+
+    // List <Object> listobj=[];
+    // listobj.addAll(list2);
+    //
+    // listobj.add("element3");
+    // listobj.add("element4");
+    // print(listobj);
+
+
+
+
+
+
+
+  }
+
 }
+

@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kalluri_milk/UserScreens/products_screen.dart';
-import 'package:kalluri_milk/UserScreens/profile_scren.dart';
-import 'cart_screen.dart';
-import 'home_screen.dart';
+import 'package:kalluri_milk/UserScreens/profile.dart';
+
+import 'home.dart';
+import 'products.dart';
+import 'wallets.dart';
+
 
 class userPannel extends StatefulWidget {
   String? phoneNumber;
-  List<String>? dates=[];
+  List<String>? dates;
   List<DocumentSnapshot>? products;
-  userPannel({this.phoneNumber,this.dates, this.products});
+  List<String>?product_name;
+  List? listofvalues;
+  userPannel({this.phoneNumber,this.dates, this.products, this.product_name,this.listofvalues});
   @override
   userPannelState createState() =>
       userPannelState(phoneNumber: this.phoneNumber);
@@ -24,17 +28,17 @@ class userPannelState extends State<userPannel> {
   List items =["Harish"];
   @override
   Widget build(BuildContext context) {
-    print(widget.dates);
+   print(widget.products);
     List<Widget> tabList = <Widget>[
       HomePage(),
-      productsPage(phoneNumber: phoneNumber,date: widget.dates,products:widget.products),
-      WalletPage(),
+      productsPage(phonenumber:phoneNumber,date: widget.dates, products:widget.products,product_name:widget.product_name,listofvalues:widget.listofvalues),
+      WalletPage(date: widget.dates, products:widget.products),
       profilePage(),
     ];
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          backgroundColor: Colors.grey.shade100,
+          backgroundColor: Colors.grey.shade200,
           key: _scaffoldKey,
           appBar: AppBar(
             elevation: 2.0,
@@ -65,7 +69,7 @@ class userPannelState extends State<userPannel> {
 
                   },),
                   (items.length>0)?Positioned(
-                     right: 10,
+                    right: 10,
                     child: Container(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 0.0),
@@ -81,22 +85,22 @@ class userPannelState extends State<userPannel> {
             color: Colors.white,
             child: Drawer(
                 child: DrawerHeader(
-              child: Text("Harish"),
-            )),
+                  child: Text("Harish"),
+                )),
           ),
           body: tabList.elementAt(_selectedIndex),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _selectedIndex,
-            elevation: 1.0,
-            selectedItemColor: Colors.yellow.shade600,
+            elevation: 15.3,
+            selectedItemColor: Colors.green,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             unselectedItemColor: Colors.grey.shade400,
             items: [
               BottomNavigationBarItem(
-                label: 'Home',
-                icon: Icon(Icons.home_filled),
-                backgroundColor: Colors.white
+                  label: 'Home',
+                  icon: Icon(Icons.home_filled),
+                  backgroundColor: Colors.white
               ),
               BottomNavigationBarItem(
                 label: 'Products',
