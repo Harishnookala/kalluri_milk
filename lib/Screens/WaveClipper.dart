@@ -11,10 +11,7 @@ class WaveClipper extends StatelessWidget{
                 opacity: 0.5,
                 child: ClipPath(
                   clipper:WaveClipperState(), //set our custom wave clipper
-                  child:Container(
-                    color:Colors.red,
-                    height:190,
-                  ),
+
                 ),
               ),
 
@@ -23,7 +20,7 @@ class WaveClipper extends StatelessWidget{
                 child:Container(
                     padding: EdgeInsets.only(bottom: 50),
                     color:Color(0xffb1d547),
-                    height:180,
+                    height:MediaQuery.of(context).size.height/3.0,
                     alignment: Alignment.topLeft,
                     child: Column(
                       children: [
@@ -31,7 +28,7 @@ class WaveClipper extends StatelessWidget{
                         Container(
                           margin: EdgeInsets.only(top: 2.6),
                           child: Text("Login", style: TextStyle(
-                              fontSize:28, color:Colors.white,fontFamily: "Poppins-Medium"
+                              fontSize:28,fontWeight: FontWeight.w700, color:Colors.white,fontFamily: "Poppins-Medium"
                           ),),
                         ),
                       ],

@@ -1,30 +1,58 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kalluri_milk/models/products.dart';
 import 'package:kalluri_milk/repositories/authentication.dart';
 
 import 'add_products.dart';
 
 class productsPage extends StatefulWidget {
   List<String>? date;
+  int?items;
   String? phonenumber;
   List<String>?product_name;
+  String?productCategory;
   bool?firstClick;
   String?buttonselect;
-  List<DocumentSnapshot>?products;
+  DocumentSnapshot? products;
   List? listofvalues;
-  productsPage({
+  List?listofproduct_items;
+  List? listOfWeekdays;
+  List? listofpackets;
+  int?count;
+  List<DocumentSnapshot?>? listofproducts;
+
+  productsPage( {
+
     this.phonenumber,
-    this.date,this.products,
+    this.date,
+    this.products,
     this.firstClick,
     this.buttonselect,
     this.product_name,
     this.listofvalues,
+    this.items,
+    this.listofproduct_items,
+    this.listofpackets,
+    this.listofproducts,
+    this.listOfWeekdays,
+    this.productCategory,
+    this.count,
   });
 
   @override
   _productsPageState createState() {
-    return _productsPageState(phonenumber: phonenumber, date: this.date,products:this.products,product_name:this.product_name,listofvalues:listofvalues);
+    return _productsPageState(phonenumber: phonenumber, date: this.date,products:this.products,
+        product_name:this.product_name,
+        listofvalues:this.listofvalues,
+        product_items:this.items,
+      listofproduct_items:this.listofproduct_items,
+        listOfWeekdays:this.listOfWeekdays,
+      listofproducts:this.listofproducts,
+      listofpackets:this.listofpackets,
+      productCategory:this.productCategory,
+        index:this.count
+    );
   }
 }
 
@@ -32,27 +60,33 @@ class _productsPageState extends State<productsPage> {
   List<String>? date;
   String? phonenumber;
   var collection;
+  int? product_items;
   String?buttonselect;
-  List<DocumentSnapshot>?products;
+  List? listOfWeekdays;
+  List? listofpackets;
+  List<DocumentSnapshot?>? listofproducts;
+  DocumentSnapshot?products;
   List<DocumentSnapshot>?items;
   String? selected;
   List? listofvalues;
+  List?listofproduct_items;
   List<String>?product_name;
-  _productsPageState({this.phonenumber, this.date,this.products,this.product_name,this.listofvalues });
+  _productsPageState({this.phonenumber, this.date,this.products,this.product_name,
+    this.listofvalues,this.product_items,this.listofproduct_items,this.listofpackets,this.listofproducts,this.listOfWeekdays,this.productCategory,this.index});
   bool? pressed = true;
   bool?firstclick =false;
-  int? index = 0;
-  String? productCategory = "Milk";
+  int? index;
+  String? productCategory;
   Authentication authentication = Authentication();
   @override
   void initState() {
-    collection = FirebaseFirestore.instance
+    collection =  FirebaseFirestore.instance
         .collection("Admin")
         .doc("Products")
         .collection("Product_details")
         .snapshots();
     if(product_name==null){
-      product_name =[];
+       product_name =[];
     }
     super.initState();
 
@@ -60,10 +94,11 @@ class _productsPageState extends State<productsPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(products);
+     print(productCategory);
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
         body: Container(
-      padding: EdgeInsets.all(4.0),
+      padding: EdgeInsets.all(12.0),
       child: Column(
         children: [
           StreamBuilder<QuerySnapshot>(
@@ -74,7 +109,6 @@ class _productsPageState extends State<productsPage> {
                   List categories = authentication.get_categories(userData);
                   Iterable products = categories.reversed;
                   categories = products.toList();
-                  print(userData!.docs[0].data());
                   var height = MediaQuery.of(context).size.height/12;
                   return Expanded(
                     child: Column(
@@ -115,6 +149,9 @@ class _productsPageState extends State<productsPage> {
     ));
   }
   buildCategoriesButton(List categories,int count) {
+    if(index ==null){
+      index = 0;
+    }
     return  Column(
       children: [
        Row(
@@ -126,42 +163,33 @@ class _productsPageState extends State<productsPage> {
               onPressed: () {
                 setState(() {
                   productCategory = categories[count];
-
                   index = count;
                 });
               },
-              child: Text(categories[count],
+              child: Text(categories[count].toString().toUpperCase(),
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: "Poppins-Light",
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400),
               ),
               style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(Size(80, 0)),
-                  shape: count == index ?
-                  MaterialStateProperty.all<
+                  elevation: MaterialStateProperty.all(count==index?0.9:0.0),
+                  minimumSize: MaterialStateProperty.all(Size(80, 30)),
+                  shape:MaterialStateProperty.all<
                       RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(
+                          side: count==index?BorderSide(
                             color: Colors.white,
-                          )))
-                      : MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                        side:
-                        BorderSide.none),
-                  ),
+                          ):BorderSide.none)),
                   backgroundColor: count == index
                       ? MaterialStateProperty.all(
                       Colors.white)
-                      : MaterialStateProperty.all(
-                      Colors.grey.shade50),
-                  foregroundColor:
-                  MaterialStateProperty.all(
-                      Colors.white)),
+                      : MaterialStateProperty.all(Colors.grey.shade100),
+                  ))
             ),
-          ),
+
 
         ],
       ),
@@ -171,31 +199,33 @@ class _productsPageState extends State<productsPage> {
   }
 
   build_products(String? productCategory, QuerySnapshot<Object?>? userData, List<String>? date,List<String>? product_name) {
-    print(product_name);
+   if(productCategory==null){
+      productCategory = "Milk";
+    }
+
     return Expanded(child: ListView.builder(
           itemCount: userData!.docs.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-
             DocumentSnapshot product = userData.docs[index];
             String sub_categories = product.get("category");
             var id = product.id;
             if (productCategory == sub_categories) {
+
               var units = productCategory == "Milk" ? "Ml" : "Gms";
               return Column(
                 children: [
                   SizedBox(
-                    height:MediaQuery.of(context).size.height*0.40,
                     child:Card(
-                      elevation: 3.3,
+                      elevation: 2.3,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.5),
+                        borderRadius: BorderRadius.circular(9.5),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               build_image(product),
@@ -211,67 +241,95 @@ class _productsPageState extends State<productsPage> {
                             children: [
                               SizedBox(width: 100,),
                               SafeArea(
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  margin: EdgeInsets.only(right: 13.3),
-                                  child:product_name!.contains(product.get("productName"))?Container(child:Text("Already added",style: TextStyle(color: Colors.red),),):TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all(Color(0xfff1d799)),
-                                      minimumSize: MaterialStateProperty.all(Size(80, 20)),
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(25.0),
-                                          )
+                                child: SizedBox(
+                                  width: 80,
+                                  height: 50,
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    margin: EdgeInsets.only(right: 13.3),
+                                    child:product_name!.contains(product.get("productName"))?Container(child:Text("Already added",style: TextStyle(color: Colors.red),),):TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Color(0xccb0d44c)),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(30.0),
+                                            )
+                                        ),
                                       ),
+                                      onPressed: () {
+                                        var dates = date;
+                                        setState(() {
+                                        product_name.add(product.get("productName"));
+                                          Navigator.of(context)
+                                              .push(
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext
+                                                  context) => add_products(date: dates,id:id,products: products,
+                                                    product_name:product_name,
+                                                    listOfvalues: listofvalues,
+                                                      product_items:product_items,listofproduct_items:listofproduct_items,
+                                                      listOfWeekdays:listOfWeekdays,
+                                                      listofproducts: listofproducts,
+                                                       listofpackets:listofpackets,
+                                                       phonenumber:phonenumber,
+                                                  )));
+                                        });
+                                      },
+                                      child: Container(
+                                          child: Text("Add",style: TextStyle(color: Colors.black,fontFamily:"Poppins-Light",fontSize: 16,fontWeight: FontWeight.w500),)),
                                     ),
-                                    onPressed: () {
-                                      var dates = date;
-                                      setState(() {
-
-                                        product_name.add( product.get("productName"));
-                                        Navigator.of(context)
-                                            .push(
-                                            MaterialPageRoute(
-                                                builder: (BuildContext
-                                                context) => add_products(date: dates,id:id,products: products,product_name:product_name,listOfvalues: listofvalues,)));
-                                      });
-                                    },
-                                    child: Container(
-
-                                        child: Text("Add",style: TextStyle(color: Colors.black,fontFamily:"Poppins-Medium",fontSize: 15),)),
                                   ),
                                 )
                               ),
                               SafeArea(
                                 child:Container(
-                                  child: TextButton(
-                                    style: ButtonStyle(
-                                      minimumSize: MaterialStateProperty.all(Size(80, 20)),
-                                      backgroundColor: MaterialStateProperty.all(Color(0xfff2d695)),
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30.0),
-                                          )
+                                  alignment: Alignment.topLeft,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width/2.9,
+                                    height: 40,
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Color(0xccb0d44c)),
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(30.0),
+                                            )
+                                        ),
                                       ),
-                                    ),
-                                    onPressed: () {
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .push(
+                                            MaterialPageRoute(
+                                                builder: (BuildContext
+                                                context) => add_products(date: date,id:id,products: products,product_name:product_name,
+                                                    listOfvalues: listofvalues,
+                                                    product_items:product_items,listofproduct_items:listofproduct_items,
+                                                    listOfWeekdays:listOfWeekdays,
+                                                    listofproducts: listofproducts,
+                                                    listofpackets:listofpackets,
+                                                    phonenumber:phonenumber
+                                                )));
+                                      },
+                                      child: Container(
 
-                                    },
-                                    child: Container(
-                                        margin: EdgeInsets.only(left: 15.3,right: 15.3),
-                                        child: Text("Subscribe",style: TextStyle(color: Colors.black54,fontFamily:"Poppins-Medium",fontSize: 16),)),
+                                        alignment: Alignment.center,
+                                          margin: EdgeInsets.only(left:6.3,right: 1.3),
+                                          child: Text("Subscribe",style: TextStyle(color: Colors.black,
+                                              fontFamily:"Poppins-Light",fontSize: 16,fontWeight: FontWeight.w500),)),
+                                    ),
                                   ),
                                 )
                               ),
                             ],
-                          )
+                          ),
+                          SizedBox(height: 10,)
                         ],
                       ),
                     ),
 
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 16.3),
+                    margin: EdgeInsets.only(top: 16.3,bottom: 16.3),
                   )
                 ],
               );
@@ -284,25 +342,27 @@ class _productsPageState extends State<productsPage> {
 
   build_image(DocumentSnapshot<Object?> product) {
     return Container(
-      alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 10.6,right: 2.6),
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(left: 13.6,right: 8.6),
       child: Column(
         children: [
-          SizedBox(height: 25,),
           Container(
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.shade300.withOpacity(0.4),
-                  spreadRadius: 4,
-                  blurRadius: 5,
-                  offset: Offset(0, 7), // changes position of shadow
+                  color: Colors.grey.shade50,
+
+                 // changes position of shadow
                 ),
               ],
             ),
-            child: CachedNetworkImage(
-              imageUrl: product.get("image"),
-              width: 120,
+            child: Container(
+              margin: EdgeInsets.only(top:12.3),
+              child: CachedNetworkImage(
+                height: MediaQuery.of(context).size.height/8.9,
+                imageUrl: product.get("image"),
+                width: MediaQuery.of(context).size.width/3,
+              ),
             ),
           ),
         ],
@@ -323,10 +383,10 @@ class _productsPageState extends State<productsPage> {
             child: Text(
               "Kalluri".toUpperCase(),
               style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontFamily: "Poppins-Light",
+                  color: Colors.grey,
+                  fontFamily: "Poppins-Medium",
                   fontSize: 15,
-                  fontWeight: FontWeight.w600
+
               ),
             ),
             margin: EdgeInsets.only(bottom: 3.3),
@@ -335,18 +395,18 @@ class _productsPageState extends State<productsPage> {
           Container(
             child: Text(
                 product.get("productName"),
-                style: TextStyle(fontSize:17,fontFamily: "Poppins-Medium")
+                style: TextStyle(fontFamily: "Poppins-Medium")
             ),
             margin: EdgeInsets.only(bottom: 5.3),
           ),
           Container(
+            width: 65,
             margin: EdgeInsets.only(top: 3.6, bottom: 6.3),
-            child:
-            Text(product.get("quantity").toString() + " " + units + " Pouch"),
+            child: Text(product.get("quantity").toString() + " " + units + " Pouch",style: TextStyle(color: Colors.grey.shade600),),
           ),
           Container(
-              margin: EdgeInsets.only(top: 2.6, bottom: 8.3),
-              child: Text("₹  " + product.get("price").toString() + ".00", style: TextStyle(fontSize:18,fontFamily: "Poppins-Medium"),)),
+              margin: EdgeInsets.only(top: 2.6),
+              child: Text("₹  " + product.get("price").toString() + ".00", style: TextStyle(fontSize:14,fontFamily: "Poppins-Medium"),)),
         ],
       ),
     );

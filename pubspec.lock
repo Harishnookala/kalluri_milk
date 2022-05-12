@@ -77,21 +77,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.8"
+    version: "3.1.11"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.13"
+    version: "5.5.2"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.8"
+    version: "2.6.11"
   collection:
     dependency: transitive
     description:
@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  date_range_picker:
+    dependency: "direct main"
+    description:
+      name: date_range_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   dropdown_button2:
     dependency: "direct main"
     description:
@@ -170,26 +177,47 @@ packages:
     source: hosted
     version: "3.3.7"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.12.0"
+    version: "1.14.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.4"
+    version: "4.2.5"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.4"
+    version: "1.6.1"
+  firebase_database:
+    dependency: "direct main"
+    description:
+      name: firebase_database
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.9"
+  firebase_database_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_database_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1+2"
+  firebase_database_web:
+    dependency: transitive
+    description:
+      name: firebase_database_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0+8"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -254,6 +282,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.6.1"
   http:
     dependency: transitive
     description:

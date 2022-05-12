@@ -11,102 +11,95 @@ class mainScreenState extends State<mainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        children: [
-          Container(
-            margin: EdgeInsets.all(3.3),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
+      resizeToAvoidBottomInset: false,
+      body: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children: [
 
-              child: Container(
-                margin: EdgeInsets.all(16.3),
-                child: Image.asset(
-                  "assets/Images/milk_Logo.png",
+               Expanded(
+                 child: Center(
+                   child: Container(
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       children: [
+                           Expanded(
+                             child: SizedBox(
+                                width: MediaQuery.of(context).size.height/3.0,
+                               child: Image.asset("assets/Images/milk_Logo.png"),
+                             ),
+                           ),
 
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          SingleChildScrollView(
-            child: Container(
-                //margin: EdgeInsets.only(left:5.6,right: 5.6),
-                height: MediaQuery.of(context).size.height / 2,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.elliptical(60, 40),
-                      topRight: Radius.elliptical(60, 60)),
-                  child: Container(
-                    color: Color(0xfff5e2b7),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 60,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                elevation: 2.3,
-                                primary: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 50, vertical: 0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25))),
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.green,
-                                  fontFamily: "Poppins-BoldItalic"),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                elevation: 2.3,
-                                primary: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 50, vertical: 0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25))),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.green,
-                                  fontFamily: "Poppins-BoldItalic"),
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ) // This trailing comma makes auto-formatting nicer for build methods.
-                ),
-          )
-        ],
-      ),
+                       ],
+                     ),
+                     ),
+                 ),
+               ),
+               Column(
+                 children: [
+                   Stack(
+                     alignment: Alignment.center,
+                     children: [
+                       SizedBox(
+                           child: Image.asset("assets/Images/wave.png",)),
+                       Container(
+                         alignment: Alignment.bottomCenter,
+                         child: Column(
+                           children: [
+                             Container(
+                               margin: EdgeInsets.only(top: 60),
+                               child: SizedBox(
+                                 child: TextButton(
+                                   style: TextButton.styleFrom(
+                                     elevation: 1.0,
+                                     side: BorderSide(color: Colors.white),
+                                     backgroundColor: Colors.white,
+                                     padding: const EdgeInsets.symmetric(
+                                         horizontal: 50, vertical: 0),
+                                     shape: RoundedRectangleBorder(
+                                         borderRadius: BorderRadius.circular(25)),
+                                   ), child: Text("Sign In",style: TextStyle(color: Colors.green.shade500,fontSize: 18,fontFamily: "Poppins-medium"),),
+                                   onPressed: (){
+                                     Navigator.push(
+                                       context,
+                                       MaterialPageRoute(
+                                           builder: (context) => Login()),
+                                     );
+                                   },
+
+                                 ),
+                               ),
+                             ),
+                             SizedBox(height: 10,),
+                             SizedBox(
+                               child: TextButton(
+                                 style: TextButton.styleFrom(
+                                   elevation: 1.0,
+                                   side: BorderSide(color: Colors.white),
+                                   backgroundColor: Colors.white,
+                                   padding: const EdgeInsets.symmetric(
+                                       horizontal: 50, vertical: 0),
+                                   shape: RoundedRectangleBorder(
+                                       borderRadius: BorderRadius.circular(25)),
+                                 ), child: Text("Sign Up",style: TextStyle(color: Colors.green.shade500,fontSize: 18,),),
+                                 onPressed: (){
+
+                                 },
+                               ),
+                             ),
+
+
+                           ],
+                         ),
+                       ),
+                     ],
+                   ),
+                 ],
+               ),
+
+             ],
+           ),
     );
   }
 }

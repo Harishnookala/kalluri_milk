@@ -32,29 +32,15 @@ class LoginState extends State<Login> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    child: Text(
-                      "Enter Phone number : -",
-                      style: TextStyle(
-                          color: Color(0xffc6912d), fontFamily: "Poppins-Light",fontSize: 16),
-                    ),
-                    padding: EdgeInsets.only(bottom: 12.3),
-                  ),
+
                   PhoneNumberField(),
                   pressed!
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: EdgeInsets.only(top: 12.3, bottom: 12.3),
-                              child: Text(
-                                "Enter Otp : -",
-                                style: TextStyle(
-                                    color: Color(0xffc6912d),
-                                    fontFamily: "Poppins",fontSize: 16),
-                              ),
-                            ),
-                            otpField()
+                           SizedBox(height: 25,),
+                            otpField(),
+                            SizedBox(height: 10,)
                           ],
                         )
                       : Container(),
@@ -82,7 +68,8 @@ class LoginState extends State<Login> {
                                         fontFamily: "Poppins-Light"),
                                   ))
                               : SizedBox(
-                                width: MediaQuery.of(context).size.width*0.45,
+                                width: MediaQuery.of(context).size.width*0.40,
+                                height: 45,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         elevation: 2.3,
@@ -104,7 +91,7 @@ class LoginState extends State<Login> {
                                                 MaterialPageRoute(
                                                     builder: (BuildContext
                                                     context) =>
-                                                        adminPannel()))
+                                                        adminPannel(phonenumber:phoneController.text)))
                                                 :auth=="Valid"? Navigator.of(context)
                                                 .push(
                                                 MaterialPageRoute(
@@ -146,7 +133,6 @@ class LoginState extends State<Login> {
     return SizedBox(
       height:55,
       child: TextFormField(
-
         validator: (phoneNumber) {
           if (phoneNumber!.isEmpty) {
             return 'Please enter Phonenumber';
@@ -154,15 +140,15 @@ class LoginState extends State<Login> {
           return null;
         },
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.mobile_friendly_outlined,color: Colors.greenAccent),
+          prefixIcon: Icon(Icons.mobile_friendly_outlined,color: Colors.lightBlueAccent),
             hintText: "Enter phone number",
             labelText: "Phone number",
             labelStyle: const TextStyle(color: Color(0xff576630),fontSize: 15),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.5),
+              borderRadius: BorderRadius.circular(6.5),
             ),
             enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xcc9fce4c), width: 1.5),
+              borderSide: BorderSide(color: Color(0xFF8FCC20), width: 1.7),
             ),
             hintStyle: const TextStyle(color: Colors.brown)),
         controller: phoneController,
@@ -192,16 +178,16 @@ class LoginState extends State<Login> {
             labelText: "Otp number",
             labelStyle: const TextStyle(color: Color(0xcc576630),fontSize: 15),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.5),
+              borderRadius: BorderRadius.circular(6.5),
             ),
             enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xcc9fce4c), width: 1.5),
+              borderSide: BorderSide(color: Color(0xFF8FCC20), width: 1.6),
             ),
             hintStyle: const TextStyle(color: Colors.brown)),
         controller: otpController,
-        cursorColor: Colors.orange,
+        cursorColor: Colors.deepPurple,
         style:  TextStyle(
-            color: Colors.indigo, fontSize: 17,letterSpacing: 1.0,),
+            color: Colors.deepPurple, fontSize: 17,letterSpacing: 1.0,),
       ),
     );
   }

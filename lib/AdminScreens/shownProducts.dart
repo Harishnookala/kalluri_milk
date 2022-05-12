@@ -12,11 +12,15 @@ import '../models/products.dart';
 import 'editProducts.dart';
 
 class shownProducts extends StatefulWidget {
+  String?phonenumber;
+  shownProducts({this.phonenumber});
   @override
-  ShownProductsState createState() => ShownProductsState();
+  ShownProductsState createState() => ShownProductsState(phonenumber:this.phonenumber);
 }
 
 class ShownProductsState extends State<shownProducts> {
+  String?phonenumber;
+  ShownProductsState({this.phonenumber});
   Authentication authentication = Authentication();
   @override
   initState() {
@@ -39,7 +43,7 @@ class ShownProductsState extends State<shownProducts> {
             if (snapshot.hasData) {
               QuerySnapshot<Object?>? userData = snapshot.data;
               List categories = authentication.get_categories(userData);
-              print(categories);
+
               Iterable products = categories.reversed;
               categories = products.toList();
               return ListView.builder(
@@ -168,7 +172,7 @@ class ShownProductsState extends State<shownProducts> {
         children: [
             CachedNetworkImage(
                 imageUrl: product.get("image"),
-                width: 140,
+                width: 100,
               ),
         ],
       ),

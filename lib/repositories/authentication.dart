@@ -1,18 +1,15 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:kalluri_milk/AdminScreens/edit_data.dart';
-import 'package:kalluri_milk/models/products.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import '../models/products.dart';
 
 class Authentication {
   CollectionReference get = FirebaseFirestore.instance.collection('Admin');
-
-
 
   String? adminAuthentication(String admin_number,String otp) {
     String? phone_number = "7995289160";
@@ -25,8 +22,8 @@ class Authentication {
     }
   }
   String?userAuthentication(String usernumber,String otp_number){
-    List phone_numbers =["8919740894","9440468098"];
-    List otp_numbers = ["40894","94404"];
+    List phone_numbers =["94404","89197"];
+    List otp_numbers = ["9440","1234"];
          if(phone_numbers.contains(usernumber)){
            if(otp_numbers.contains(otp_number)){
              return "Valid";
@@ -56,7 +53,6 @@ class Authentication {
      var value = await querySnapshot;
      if(value.docs.length>0){
        for(int i = 0;i<value.docs.length;i++){
-         print("Harish");
          DocumentSnapshot documentSnapshot = value.docs[i];
            doc_id =  documentSnapshot.id;
        }
@@ -109,7 +105,6 @@ class Authentication {
     values.add(products![0].get("productName"));
 
 
-    print(numbers);
   }
 
   List? getProductswithdates(List<DocumentSnapshot<Object?>>? products, List<String>? date, String? singledate) {
@@ -125,45 +120,120 @@ class Authentication {
 
     }
 
-  get_id(List? listofvalues) {
-    List idea = [];
-    List list =[];
-    List get =[];
+  get_total(List? listofvalues) {
+    num total =0;
+    if(listofvalues!=null){
+      for(int i =0;i<listofvalues.length;i++){
+        List<DocumentSnapshot<Object?>?> products = listofvalues[i][1];
+        var price = products[0]!.get("price");
+        total = total+price;
+      }
+      return total;
+    }
 
-  //  [               [ [16 mar][121][10034]  ],]
+  }
 
-    List<Object> list1=[] ;
-    List<Object> list2=[];
-    List<Object> list3=[];
+   get_price(List? listofvalues) {
+     var price;
+    if(listofvalues!=null){
+      for(int i =0;i<listofvalues.length;i++){
+        List<DocumentSnapshot<Object?>?> products = listofvalues[i][1];
+         price = products[0]!.get("price");
+      }
+      return price;
+    }
+  }
 
-    //list3.add([])
-
-    list2.add("element1");
-
-    list1.add("element2");
-    list1.add("element3");
-   // list1.add("element4");
-
-    list2.add(list1);
-
-    list3.add(list2);
-
-    print(list3.toString() + "Siva");
-
-    // List <Object> listobj=[];
-    // listobj.addAll(list2);
-    //
-    // listobj.add("element3");
-    // listobj.add("element4");
-    // print(listobj);
+     Stream<List<Categories>>get_product_values()  {
+   return FirebaseFirestore.instance.collection("Admin").doc("Products").
+   collection("Product_details").snapshots().map((event) =>event.docs.map((e) => Categories.fromJson(e.data())).toList());
 
 
+   }
 
+   get_total_price(List listofvalues, DocumentSnapshot<Object?>? products) {
+    var price;
+    num total =0;
+    for(int i =0;i<listofvalues.length;i++){
+      List<DocumentSnapshot<Object?>?> products = listofvalues[i][1];
+      price = products[0]!.get("price");
+      total = total +price;
+    }
+    return total;
+  }
 
-
+  get_totalValues(values, DocumentSnapshot<Object?>? products, List? listofproduct_items, List listofvalues) {
+     num price =0;
+     var product_price;
+     List listOfitems  =[];
+     if(listofvalues!=null) {
+       for (int i = 0; i < listofvalues.length; i++) {
+         for (int j = 0; j < listofproduct_items!.length; j++) {
+           List<DocumentSnapshot<Object?>?> products = listofvalues[i][1];
+           price = products[0]!.get("price");
+           product_price = listofproduct_items[i];
+         }
+         listOfitems.add(price);
+         listOfitems.add(product_price);
+       }
+       num totalprice = 0;
+       for (int k = 0; k < listOfitems.length; k += 2) {
+         var product_items = listOfitems[k] * listOfitems[k + 1];
+         totalprice = totalprice + product_items;
+       }
+       return totalprice;
+     }
+     return [];
 
 
   }
 
+  get_week_total(List? listOfWeekdays, List? listofpackets) {
+    num price = 0;
+    List?listofprices =[];
+    if(listOfWeekdays!=null){
+      for(int i =0;i<listOfWeekdays.length;i++){
+        DocumentSnapshot products = listOfWeekdays[i][1];
+        price = products.get("price");
+        for(int j =i;j<=i;j++){
+          listofprices.add(price);
+          listofprices.add(listofpackets![j]);
+        }
+      }
+      num totalprice =0;
+      for(int k=0;k<listofprices.length;k+=2){
+        num price = listofprices[k]*listofprices[k+1];
+        totalprice = totalprice + price;
+      }
+
+      return totalprice;
+    }
+
+  }
+
+  get_data(listofvalues, List? listofproduct_items) {
+    List listofproducts =[];
+    List listofitems =[];
+    for(int i =0;i<listofvalues.length;i++){
+     listofproducts.add(listofvalues[i][0]);
+
+   }
+    return listofproducts;
+  }
 }
+
+
+
+/*
+  Stream<List<UserModel>> getUserList() {
+    return _fireStoreDataBase.collection('user')
+        .snapshots()
+        .map((snapShot) => snapShot.documents
+        .map((document) => UserModel.fromJson(document.data))
+        .toList());
+  }
+*/
+
+
+
 

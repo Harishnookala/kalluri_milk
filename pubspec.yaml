@@ -37,12 +37,16 @@ dependencies:
   dropdown_button2: ^1.1.1
   image_picker: ^0.8.4+9
   firebase_auth: ^3.3.7
-  cloud_firestore: ^3.1.8
+  cloud_firestore: ^3.1.11
   firebase_storage: ^10.2.7
   flutter_cache_manager: ^3.3.0
   cached_network_image: ^3.2.0
   intl: ^0.17.0
   shared_preferences: ^2.0.13
+  get: ^4.6.1
+  firebase_database: ^9.0.9
+  date_range_picker: ^1.0.7
+  firebase_core: ^1.14.0
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +81,14 @@ flutter:
      - assets/Images/panner_image.jpg
      - assets/Images/ghee_image.jpg
      - assets/Images/milk_product_image.jpg
+     - assets/Images/wave.png
+     - assets/Images/milk.png
+     - assets/Images/curd.png
+     - assets/Images/Panner.png
+     - assets/Images/ghee.png
+     - assets/Images/Grocery.png
+     - assets/Images/Eggs.png
+     - assets/Images/Cart.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
